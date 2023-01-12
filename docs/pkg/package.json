@@ -1,0 +1,12 @@
+{
+  "name": "redacted-rs",
+  "version": "0.1.0",
+  "files": [
+    "redacted_rs_bg.wasm",
+    "redacted_rs.js",
+    "redacted_rs.d.ts"
+  ],
+  "module": "redacted_rs.js",
+  "types": "redacted_rs.d.ts",
+  "sideEffects": false
+}

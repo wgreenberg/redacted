@@ -1,0 +1,14 @@
+[package]
+name = "redacted-rs"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+chrono = "0.4.23"
+regex = "1.7.1"
+wasm-bindgen = "0.2.83"
+js-sys = "0.3.60"
+console_error_panic_hook = "0.1.7"

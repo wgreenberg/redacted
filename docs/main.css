@@ -1,0 +1,101 @@
+body {
+}
+
+.hidden {
+    display: none;
+}
+
+.root-container {
+    display: flex;
+    flex-direction: column;
+    height: 600px;
+    width: 800px;
+    gap: 3px;
+    padding: 3px;
+    border: 1px;
+    border-style: solid;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: row;
+    gap: 3px;
+    flex: 1;
+}
+
+.sidebar-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0;
+    border: 1px;
+    border-style: solid;
+}
+
+.sidebar-tabs {
+    display: flex;
+    flex-direction: row;
+    border: 1px;
+    border-style: solid;
+}
+
+.sidebar-tabs-item {
+    flex: 1 0;
+}
+
+.sidebar-tabs-item.selected {
+    background-color: blue;
+}
+
+.sidebar-list {
+    display: flex;
+    flex-direction: column;
+    border: 1px;
+    border-style: solid;
+}
+
+.sidebar-list-item {
+    border: 1px;
+    border-style: solid;
+}
+
+.sidebar-tabs-item.selected {
+}
+
+.content-container {
+    display: flex;
+    flex-direction: column;
+    flex: 2 0;
+    border: 1px;
+    border-style: solid;
+}
+
+.content-container-item {
+}
+
+.notifications-list {
+    display: flex;
+    flex-direction: row-reverse;
+    flex: 1 0;
+}
+
+.notification-attachment {
+    background-color: red;
+    background-image: image('img/attachment.png');
+    width: 50px;
+    height: 50px;
+}
+
+.notification-email {
+    background-color: blue;
+    background-image: image('img/email.png');
+    width: 50px;
+    height: 50px;
+}
+
+.tray-container {
+    display: flex;
+    flex-direction: row;
+    height: 10%;
+    border: 1px;
+    border-style: solid;
+}
