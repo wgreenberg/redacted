@@ -2,7 +2,6 @@ use std::str::FromStr;
 
 use chrono::prelude::*;
 use chrono::ParseError;
-use wasm_bindgen::convert::IntoWasmAbi;
 use wasm_bindgen::prelude::*;
 use regex::{Regex, RegexBuilder, escape};
 use js_sys::Array;
@@ -28,10 +27,6 @@ fn redact(input: &str) -> Result<String, String> {
     } else {
         Ok(result)
     }
-}
-
-fn unredact(input: &str) -> String {
-    input.chars().filter(|&c| c != '[' && c != ']').collect()
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -127,15 +122,25 @@ impl Email {
 
     fn new_query_result(query: &Query, new_docs: &[Document], old_docs: &[Document]) -> Email {
         let subject = format!("{} new results for your query \"{}\" ({})", new_docs.len(), query.input, query.year.unwrap());
-        let mut body = format!("Hello, here are the new results for your query \"{}\" for {}:\n\n", query.input, query.year.unwrap());
-        for doc in new_docs {
-            body.push_str(&doc.title_redacted);
-            body.push_str("\n");
+        let mut body = "Hello,\n\n".to_string();
+        if new_docs.len() > 0 {
+            body.push_str("Here are the new results for your query:\n");
+            for doc in new_docs {
+                body.push_str("  • ");
+                body.push_str(&doc.title_redacted);
+                body.push_str("\n");
+            }
+        } else {
+            body.push_str("There were no new results for your query.\n\n");
         }
-        body.push_str("\nYour query also resulted in the following old results:\n");
-        for doc in old_docs {
-            body.push_str(&doc.title_redacted);
-            body.push_str("\n");
+
+        if old_docs.len() > 0 {
+            body.push_str("\nYour query resulted in the following old results:\n");
+            for doc in old_docs {
+                body.push_str("  • ");
+                body.push_str(&doc.title_redacted);
+                body.push_str("\n");
+            }
         }
         Email {
             subject,
@@ -156,7 +161,7 @@ pub struct GameStateEvent {
 #[wasm_bindgen]
 impl GameStateEvent {
     fn newgame_event() -> GameStateEvent {
-        let email = Email::new("welcome", "find anya");
+        let email = Email::new("welcome", "this is exactly why you gotta crunch the people under the ruling class.\nin the natural environment wolves cannot crunch the ruling class!!\nbut we enjoy crunching every ruling class, because we are living wolves 2 men ayyyyyyyyyya");
         GameStateEvent { emails: vec![email] }
     }
 
@@ -220,20 +225,6 @@ impl GameState {
         result
     }
 
-    pub fn get_documents(&self) -> Array {
-        let mut docs: Vec<&Document> = self.documents.iter()
-            .enumerate()
-            .filter(|(i, _)| !self.document_hidden_status[*i])
-            .map(|(_, doc)| doc)
-            .collect();
-        docs.sort_by(|a, b| a.partial_cmp(b).unwrap());
-        let result = Array::new();
-        for doc in docs {
-            result.push(&JsValue::from(doc.clone()));
-        }
-        result
-    }
-
     pub fn submit_query(&mut self, input: &str, year: i32) -> QueryResult {
         let query = Query::new(input, Some(year)).unwrap();
         let mut new_docs = Vec::new();
@@ -272,11 +263,6 @@ mod tests {
         assert!(redact("mismatched [ brace").is_err());
         assert!(redact("nested [braces[]]").is_err());
         assert!(redact("mismatched ] brace").is_err());
-    }
-
-    #[test]
-    fn test_unredact() {
-        assert_eq!(unredact("this [is] a te[s]t"), "this is a test".to_string());
     }
 
     #[test]

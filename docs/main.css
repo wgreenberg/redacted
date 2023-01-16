@@ -1,101 +1,163 @@
-body {
+@font-face {
+  font-family: "Windows 95";
+  src: url("fonts/w-95-sans-serif.woff2") format("woff2"), url("fonts/w-95-sans-serif.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+/* Color */
+/* Spacing */
+/* Borders */
+/* Window borders flip button-face and button-highlight */
+/* Field borders checkbox, input, etc flip window-frame and button-shadow */
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  font-family: "Windows 95", sans-serif;
+  font-weight: 400;
+}
+
+p,
+ol li,
+ul li {
+  font-family: "Windows 95", sans-serif;
+  font-size: 0.6rem;
+  font-weight: 300;
+  line-height: 2;
 }
 
 .hidden {
-    display: none;
+  display: none;
 }
 
 .root-container {
-    display: flex;
-    flex-direction: column;
-    height: 600px;
-    width: 800px;
-    gap: 3px;
-    padding: 3px;
-    border: 1px;
-    border-style: solid;
+  display: flex;
+  flex-direction: column;
+  background-color: #c0c0c0;
+  box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #ffffff, inset -2px -2px #808080, inset 2px 2px #dfdfdf;
+  height: 600px;
+  width: 800px;
+  gap: 3px;
+  padding: 3px;
 }
 
 .main-container {
-    display: flex;
-    flex-direction: row;
-    gap: 3px;
-    flex: 1;
+  display: flex;
+  flex-direction: row;
+  gap: 3px;
+  height: 6.6666666667px;
+  flex: 1;
 }
 
 .sidebar-container {
-    display: flex;
-    flex-direction: column;
-    flex: 1 0;
-    border: 1px;
-    border-style: solid;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 26.6666666667px;
+  flex: 1;
 }
 
 .sidebar-tabs {
-    display: flex;
-    flex-direction: row;
-    border: 1px;
-    border-style: solid;
+  display: flex;
+  flex-direction: row;
 }
 
 .sidebar-tabs-item {
-    flex: 1 0;
+  flex: 1 0;
+  background-color: #dfdfdf;
+  padding: 5px;
+  box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #ffffff, inset -2px -2px #808080, inset 2px 2px #dfdfdf;
+  cursor: pointer;
 }
 
 .sidebar-tabs-item.selected {
-    background-color: blue;
+  box-shadow: inset -1px -1px #ffffff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px #808080;
 }
 
 .sidebar-list {
-    display: flex;
-    flex-direction: column;
-    border: 1px;
-    border-style: solid;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: scroll;
+  gap: 4px;
+  border: none;
+  padding: 3px 4px;
+  background-color: #ffffff;
+  box-shadow: inset -1px -1px #ffffff, inset 1px 1px #808080, inset -2px -2px #dfdfdf, inset 2px 2px #0a0a0a;
 }
 
 .sidebar-list-item {
-    border: 1px;
-    border-style: solid;
+  font-size: 10;
+  padding: 3px 4px;
+  cursor: pointer;
 }
 
-.sidebar-tabs-item.selected {
+.sidebar-list-item.unread {
+  background-image: url("img/attachment.png");
+  background-size: 20px 20px;
+  background-position-y: center;
+  background-repeat: no-repeat;
+  padding: 3px 4px 3px 20px;
+}
+
+.sidebar-list-item.selected {
+  background-color: #000080;
+  color: #ffffff;
+  padding: 3px 4px 3px 8px;
 }
 
 .content-container {
-    display: flex;
-    flex-direction: column;
-    flex: 2 0;
-    border: 1px;
-    border-style: solid;
+  display: flex;
+  flex-direction: column;
+  flex: 2;
+  border: none;
+  width: 11.4285714286px;
+  overflow: scroll;
+  padding: 3px 4px;
+  background-color: #ffffff;
+  box-shadow: inset -1px -1px #ffffff, inset 1px 1px #808080, inset -2px -2px #dfdfdf, inset 2px 2px #0a0a0a;
 }
 
-.content-container-item {
+.content-container {
+  white-space: pre;
 }
 
 .notifications-list {
-    display: flex;
-    flex-direction: row-reverse;
-    flex: 1 0;
+  display: flex;
+  flex-direction: row-reverse;
+  flex: 1 0;
+  gap: 5px;
 }
 
 .notification-attachment {
-    background-color: red;
-    background-image: image('img/attachment.png');
-    width: 50px;
-    height: 50px;
+  background-image: url("img/attachment.png");
+  background-size: 50px 50px;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
 }
 
 .notification-email {
-    background-color: blue;
-    background-image: image('img/email.png');
-    width: 50px;
-    height: 50px;
+  background-image: url("img/mail.png");
+  background-size: 50px 50px;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
 }
 
 .tray-container {
-    display: flex;
-    flex-direction: row;
-    height: 10%;
-    border: 1px;
-    border-style: solid;
+  display: flex;
+  flex-direction: row;
+  height: 60px;
 }
+
+/*# sourceMappingURL=main.css.map */

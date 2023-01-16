@@ -290,13 +290,6 @@ export class GameState {
         return takeObject(ret);
     }
     /**
-    * @returns {Array<any>}
-    */
-    get_documents() {
-        const ret = wasm.gamestate_get_documents(this.ptr);
-        return takeObject(ret);
-    }
-    /**
     * @param {string} input
     * @param {number} year
     * @returns {QueryResult}

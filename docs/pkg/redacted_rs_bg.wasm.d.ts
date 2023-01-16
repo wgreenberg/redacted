@@ -15,7 +15,6 @@ export function queryresult_docs(a: number): number;
 export function __wbg_gamestate_free(a: number): void;
 export function gamestate_new(a: number, b: number): void;
 export function gamestate_drain_events(a: number): number;
-export function gamestate_get_documents(a: number): number;
 export function gamestate_submit_query(a: number, b: number, c: number, d: number): number;
 export function init_panic_hook(): void;
 export function email_body(a: number, b: number): void;

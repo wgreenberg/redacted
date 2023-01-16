@@ -42,10 +42,6 @@ export class GameState {
 */
   drain_events(): Array<any>;
 /**
-* @returns {Array<any>}
-*/
-  get_documents(): Array<any>;
-/**
 * @param {string} input
 * @param {number} year
 * @returns {QueryResult}
@@ -90,7 +86,6 @@ export interface InitOutput {
   readonly __wbg_gamestate_free: (a: number) => void;
   readonly gamestate_new: (a: number, b: number) => void;
   readonly gamestate_drain_events: (a: number) => number;
-  readonly gamestate_get_documents: (a: number) => number;
   readonly gamestate_submit_query: (a: number, b: number, c: number, d: number) => number;
   readonly init_panic_hook: () => void;
   readonly email_body: (a: number, b: number) => void;

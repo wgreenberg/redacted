@@ -54,6 +54,9 @@ class GameManager {
     private notificationAttachments: Document[] = [];
 
     constructor(public gameState: GameState, public gameView: GameView) {
+    }
+
+    setup() {
         this.setActiveTab(Tab.Emails);
         this.checkForEvents();
         this.gameView.setEventHandler(e => {
@@ -63,6 +66,7 @@ class GameManager {
             } else if (e.kind === UiEventKind.FoiaSubmitted) {
                 this.submitFoiaQuery(e.input, e.year);
             } else if (e.kind === UiEventKind.DocumentListItemClicked) {
+                this.gameView.setActiveDocument(e.index);
                 this.gameView.showDocumentContents(this.docs[e.index]);
             } else if (e.kind === UiEventKind.AttachmentNotificationClicked) {
                 const doc = this.notificationAttachments[e.index];
@@ -78,6 +82,7 @@ class GameManager {
                 this.gameView.removeEmailNotification(e.index);
                 this.gameView.appendEmail(email);
             } else if (e.kind === UiEventKind.EmailListItemClicked) {
+                this.gameView.setActiveEmail(e.index);
                 this.gameView.showEmailContents(this.emails[e.index]);
             }
         });
@@ -174,6 +179,25 @@ class GameView {
         })
     }
 
+    private setActiveListMember(list: HTMLCollection, index: number) {
+        Array.prototype.forEach.call(list, (child: HTMLElement, i: number) => {
+            if (index === i) {
+                this.ensureClass(child, 'selected');
+                child.classList.remove('unread');
+            } else {
+                child.classList.remove('selected');
+            }
+        });
+    }
+
+    setActiveEmail(index: number) {
+        this.setActiveListMember(this.sidebarEmailList.children, index);
+    }
+
+    setActiveDocument(index: number) {
+        this.setActiveListMember(this.sidebarDocList.children, index);
+    }
+
     private emit(event: UiEvent) {
         if (this.eventHandler) {
             this.eventHandler(event);
@@ -184,7 +208,6 @@ class GameView {
         const node = document.createElement('div');
         const icon = document.createElement('img');
         node.dataset.index = index.toString();
-        //icon.setAttribute('src', 'img/mail.png');
         node.setAttribute('class', 'notification-email');
         node.appendChild(icon);
         this.notificationsList.appendChild(node);
@@ -194,7 +217,6 @@ class GameView {
         const node = document.createElement('div');
         node.dataset.index = index.toString();
         const icon = document.createElement('img');
-        //icon.setAttribute('src', 'img/attachment.png');
         node.setAttribute('class', 'notification-attachment');
         node.appendChild(icon);
         this.notificationsList.appendChild(node);
@@ -221,14 +243,14 @@ class GameView {
         node.setAttribute('class', 'content-container-email-content');
         const subject = document.createTextNode(email.subject);
         node.appendChild(subject);
-        const body = document.createTextNode(email.body);
+        const body = this.createLargeTextNode(email.body);
         node.appendChild(body);
         return node;
     }
 
     private createEmailListItemNode(email: Email): HTMLElement {
         const node = document.createElement('div');
-        node.setAttribute('class', 'sidebar-list-emails-item');
+        node.setAttribute('class', 'sidebar-list-item email unread');
         const subject = document.createTextNode(email.subject);
         node.appendChild(subject);
         return node;
@@ -238,25 +260,33 @@ class GameView {
         this.contentDoc.replaceChildren(this.createDocContentNode(doc));
     }
 
+    private createLargeTextNode(text: string): HTMLElement {
+        const body = document.createElement('div');
+        text.split('\n').forEach(line => {
+            const pNode = document.createElement('p');
+            pNode.appendChild(document.createTextNode(line));
+            body.appendChild(pNode);
+        });
+        return body;
+    }
+
     private createDocContentNode(doc: Document): HTMLElement {
         const node = document.createElement('div');
         node.setAttribute('class', 'content-container-document-content');
-        const title = document.createTextNode(doc.title_redacted);
-        node.appendChild(title);
-        const date = document.createTextNode(doc.date);
-        node.appendChild(date);
-        const body = document.createTextNode(doc.body_redacted);
+        const headerText = [doc.title_redacted, '-', doc.date].join(' ');
+        const header = document.createTextNode(headerText);
+        node.appendChild(header);
+        const body = this.createLargeTextNode(doc.body_redacted);
         node.appendChild(body);
         return node;
     }
 
     private createDocListItem(doc: Document): HTMLElement {
         const node = document.createElement('div');
-        node.setAttribute('class', 'sidebar-list-documents-item');
-        const title = document.createTextNode(doc.title_redacted);
-        const date = document.createTextNode(doc.date);
-        node.appendChild(title);
-        node.appendChild(date);
+        node.setAttribute('class', 'sidebar-list-item document unread');
+        const headerText = [doc.title_redacted, '-', doc.date].join(' ');
+        const header = document.createTextNode(headerText);
+        node.appendChild(header);
         return node;
     }
 
@@ -299,11 +329,13 @@ async function run(): Promise<void> {
 
     const gs = GameState.new([
         "a document\n1990-12-15\n\nthis [is] a [document]\nit's cool",
-        "something else [entirely]\n1991-12-15\n\nthis one's [even\ncooler]",
+        "something else [entirely]\n1990-12-15\n\nthis one's [even\ncooler]",
+        "a really really really really really really long title\n1990-12-15\n\nthis one's [even\ncooler]",
     ]);
 
     const view = new GameView();
     const manager = new GameManager(gs, view);
+    manager.setup();
 }
 
 run();

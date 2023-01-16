@@ -1,0 +1,214 @@
+@font-face {
+    font-family: 'Windows 95';
+    src: url('fonts/w-95-sans-serif.woff2') format('woff2'),
+        url('fonts/w-95-sans-serif.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+// from jdan's 98.css
+/* Color */
+$text-color: #222222;
+$surface: #c0c0c0;
+$button-highlight: #ffffff;
+$button-face: #dfdfdf;
+$button-shadow: #808080;
+$window-frame: #0a0a0a;
+$dialog-blue: #000080;
+$dialog-blue-light: #1084d0;
+$dialog-gray: #808080;
+$dialog-gray-light: #b5b5b5;
+$link-blue: #0000ff;
+
+/* Spacing */
+$element-spacing: 8px;
+$grouped-button-spacing: 4px;
+$grouped-element-spacing: 6px;
+$radio-width: 12px;
+$checkbox-width: 13px;
+$radio-label-spacing: 6px;
+$range-track-height: 4px;
+$range-spacing: 10px;
+
+/* Borders */
+$border-width: 1px;
+$border-raised-outer: inset -1px -1px $window-frame,
+  inset 1px 1px $button-highlight;
+$border-raised-inner: inset -2px -2px $button-shadow,
+  inset 2px 2px $button-face;
+$border-sunken-outer: inset -1px -1px $button-highlight,
+  inset 1px 1px $window-frame;
+$border-sunken-inner: inset -2px -2px $button-face,
+  inset 2px 2px $button-shadow;
+
+/* Window borders flip button-face and button-highlight */
+$border-window-outer: inset -1px -1px $window-frame,
+  inset 1px 1px $button-face;
+$border-window-inner: inset -2px -2px $button-shadow,
+  inset 2px 2px $button-highlight;
+
+/* Field borders checkbox, input, etc flip window-frame and button-shadow */
+$border-field: inset -1px -1px $button-highlight,
+  inset 1px 1px $button-shadow, inset -2px -2px $button-face,
+  inset 2px 2px $window-frame;
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+    font-family: "Windows 95", sans-serif;
+    font-weight: 400;
+}
+
+p,
+ol li,
+ul li {
+    font-family: "Windows 95", sans-serif;
+    font-size: .6rem;
+    font-weight: 300;
+    line-height: 2;
+}
+
+
+.hidden {
+    display: none;
+}
+
+$height: 600px;
+$width: 800px;
+$main-height: calc($height / 90);
+$tray-height: calc($height / 10);
+$sidebar-width: calc($width / 30);
+$content-width: calc($width / 70);
+
+.root-container {
+    display: flex;
+    flex-direction: column;
+    background-color: $surface;
+    box-shadow: $border-raised-outer, $border-raised-inner;
+    height: $height;
+    width: $width;
+    gap: 3px;
+    padding: 3px;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: row;
+    gap: 3px;
+    height: $main-height;
+    flex: 1;
+}
+
+.sidebar-container {
+    display: flex;
+    flex-direction: column;
+    gap: $element-spacing;
+    width: $sidebar-width;
+    flex: 1;
+}
+
+.sidebar-tabs {
+    display: flex;
+    flex-direction: row;
+}
+
+.sidebar-tabs-item {
+    flex: 1 0;
+    background-color: $button-face;
+    padding: 5px;
+    box-shadow: $border-raised-outer, $border-raised-inner;
+    cursor: pointer;
+}
+
+.sidebar-tabs-item.selected {
+    box-shadow: $border-sunken-outer, $border-sunken-inner;
+}
+
+.sidebar-list {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: scroll;
+    gap: $grouped-button-spacing;
+    border: none;
+    padding: 3px 4px;
+    background-color: $button-highlight;
+    box-shadow: $border-field;
+}
+
+.sidebar-list-item {
+    font-size: 10;
+    padding: 3px 4px;
+    cursor: pointer;
+}
+
+.sidebar-list-item.unread {
+    background-image: url('img/attachment.png');
+    background-size: 20px 20px;
+    background-position-y: center;
+    background-repeat: no-repeat;
+    padding: 3px 4px 3px 20px;
+}
+
+.sidebar-list-item.selected {
+    background-color: $dialog-blue;
+    color: $button-highlight;
+    padding: 3px 4px 3px 8px;
+}
+
+.content-container {
+    display: flex;
+    flex-direction: column;
+    flex: 2;
+    border: none;
+    width: $content-width;
+    overflow: scroll;
+    padding: 3px 4px;
+    background-color: $button-highlight;
+    box-shadow: $border-field;
+}
+
+.content-container {
+    white-space: pre;
+}
+
+.notifications-list {
+    display: flex;
+    flex-direction: row-reverse;
+    flex: 1 0;
+    gap: 5px;
+}
+
+.notification-attachment {
+    //background-color: red;
+    background-image: url('img/attachment.png');
+    background-size: 50px 50px;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+}
+
+.notification-email {
+    //background-color: blue;
+    background-image: url('img/mail.png');
+    background-size: 50px 50px;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+}
+
+.tray-container {
+    display: flex;
+    flex-direction: row;
+    height: $tray-height;
+}
