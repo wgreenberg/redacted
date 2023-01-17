@@ -38,6 +38,11 @@ export class GameState {
 */
   static new(doc_strs: Array<any>): GameState;
 /**
+* @param {string} data
+* @returns {GameState}
+*/
+  static new_from_cache(data: string): GameState;
+/**
 * @returns {Array<any>}
 */
   drain_events(): Array<any>;
@@ -76,19 +81,20 @@ export interface InitOutput {
   readonly document_title_redacted: (a: number, b: number) => void;
   readonly document_body_redacted: (a: number, b: number) => void;
   readonly document_date: (a: number, b: number) => void;
-  readonly __wbg_email_free: (a: number) => void;
-  readonly email_subject: (a: number, b: number) => void;
+  readonly init_panic_hook: () => void;
   readonly __wbg_gamestateevent_free: (a: number) => void;
   readonly gamestateevent_emails: (a: number) => number;
+  readonly __wbg_gamestate_free: (a: number) => void;
+  readonly gamestate_new: (a: number, b: number) => void;
+  readonly gamestate_new_from_cache: (a: number, b: number, c: number) => void;
+  readonly gamestate_drain_events: (a: number) => number;
+  readonly gamestate_submit_query: (a: number, b: number, c: number, d: number) => number;
+  readonly __wbg_email_free: (a: number) => void;
+  readonly email_subject: (a: number, b: number) => void;
+  readonly email_body: (a: number, b: number) => void;
   readonly __wbg_queryresult_free: (a: number) => void;
   readonly queryresult_email: (a: number) => number;
   readonly queryresult_docs: (a: number) => number;
-  readonly __wbg_gamestate_free: (a: number) => void;
-  readonly gamestate_new: (a: number, b: number) => void;
-  readonly gamestate_drain_events: (a: number) => number;
-  readonly gamestate_submit_query: (a: number, b: number, c: number, d: number) => number;
-  readonly init_panic_hook: () => void;
-  readonly email_body: (a: number, b: number) => void;
   readonly __wbindgen_malloc: (a: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number) => number;
   readonly __wbindgen_add_to_stack_pointer: (a: number) => number;

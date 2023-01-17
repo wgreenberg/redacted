@@ -1,4 +1,4 @@
-import init, {init_panic_hook, GameState, Document, GameStateEvent, Email} from './pkg/redacted_rs.js';
+import init, {init_panic_hook, GameState, Document, GameStateEvent, Email} from './pkg/redacted.js';
 
 enum Tab {
     Emails,
@@ -262,11 +262,9 @@ class GameView {
 
     private createLargeTextNode(text: string): HTMLElement {
         const body = document.createElement('div');
-        text.split('\n').forEach(line => {
-            const pNode = document.createElement('p');
-            pNode.appendChild(document.createTextNode(line));
-            body.appendChild(pNode);
-        });
+        const pNode = document.createElement('p');
+        pNode.appendChild(document.createTextNode(text));
+        body.appendChild(pNode);
         return body;
     }
 
@@ -323,15 +321,17 @@ class GameView {
     }
 }
 
+async function loadDocCache() {
+    const res = await fetch('./cache');
+    return await res.text();
+}
+
 async function run(): Promise<void> {
     await init();
     init_panic_hook();
 
-    const gs = GameState.new([
-        "a document\n1990-12-15\n\nthis [is] a [document]\nit's cool",
-        "something else [entirely]\n1990-12-15\n\nthis one's [even\ncooler]",
-        "a really really really really really really long title\n1990-12-15\n\nthis one's [even\ncooler]",
-    ]);
+    const cache = await loadDocCache();
+    const gs = GameState.new_from_cache(cache);
 
     const view = new GameView();
     const manager = new GameManager(gs, view);

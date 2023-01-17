@@ -7,5 +7,6 @@ cargo watch \
     --ignore docs/fonts \
     --ignore docs/main.css \
     --ignore docs/main.css.map \
+    --ignore docs/cache \
     --ignore watch.sh \
     -- ./build.sh

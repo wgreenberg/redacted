@@ -7,7 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import init, { init_panic_hook, GameState } from './pkg/redacted_rs.js';
+import init, { init_panic_hook, GameState } from './pkg/redacted.js';
 var Tab;
 (function (Tab) {
     Tab[Tab["Emails"] = 0] = "Emails";
@@ -213,11 +213,9 @@ class GameView {
     }
     createLargeTextNode(text) {
         const body = document.createElement('div');
-        text.split('\n').forEach(line => {
-            const pNode = document.createElement('p');
-            pNode.appendChild(document.createTextNode(line));
-            body.appendChild(pNode);
-        });
+        const pNode = document.createElement('p');
+        pNode.appendChild(document.createTextNode(text));
+        body.appendChild(pNode);
         return body;
     }
     createDocContentNode(doc) {
@@ -266,15 +264,18 @@ class GameView {
         element.classList.remove('hidden');
     }
 }
+function loadDocCache() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const res = yield fetch('./cache');
+        return yield res.text();
+    });
+}
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         yield init();
         init_panic_hook();
-        const gs = GameState.new([
-            "a document\n1990-12-15\n\nthis [is] a [document]\nit's cool",
-            "something else [entirely]\n1990-12-15\n\nthis one's [even\ncooler]",
-            "a really really really really really really long title\n1990-12-15\n\nthis one's [even\ncooler]",
-        ]);
+        const cache = yield loadDocCache();
+        const gs = GameState.new_from_cache(cache);
         const view = new GameView();
         const manager = new GameManager(gs, view);
         manager.setup();
